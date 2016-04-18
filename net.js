@@ -218,13 +218,20 @@ module.exports = {
 		});
 		console.info('registered!');
 	},
+	registerUser:(id, pubkey) => {
+		return tracker.collection('nodes').findById(id).then((doc) => {
+			doc = doc || {_id:id};
+			doc.pubkey = pubkey;
+			return tracker.collection('nodes').save(doc);
+		});
+	},
 	getIdentity: (id) => {
 		if (!tracker) throw new Error("Tracker not initialised");
-		return tracker.find({id:id});
+		return tracker.collection('nodes').find({id:id});
 	},
 	getPublicKey: (id) => {
 		if (!tracker) throw new Error("Tracker not initialised");
-		return tracker.findById(id).then((x) => x && x[0].pubkey);
+		return tracker.collection('nodes').findById(id).then((x) => x && x[0].pubkey);
 	}
 };
 	

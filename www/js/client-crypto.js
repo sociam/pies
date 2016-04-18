@@ -33,5 +33,4 @@ angular.module('smvm', [])
 			        .then(data => window.crypto.subtle.encrypt({name: "RSA-OAEP", hash: {name: "SHA-256"}}, data.key, data.buffer));
 			}
 		};
-
     });

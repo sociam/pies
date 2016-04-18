@@ -8,8 +8,8 @@ angular.module('smvm', [])
             return Promise.resolve($.ajax({url:url, contentType:'application/json', method:'GET', data:args}));
         };
         this.checkAuth = () => get('/api/check');
-        this.register = (username, password) => post('/api/newuser', {username:username,password:password});
-        this.auth = (username, password) => post('/api/auth', {username:username,password:password});
+        this.register = (username, key) => post('/api/newuser', {username:username,key:key});
+        this.auth = (username, key) => post('/api/auth', {username:username,password:key});
         this.generateKey = () => get('/api/generateKey');
     }).service('storage', function() {
         var this_ = this,

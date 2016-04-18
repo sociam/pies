@@ -23,7 +23,7 @@ module.exports = {
 		return req.cookies && req.cookies.authtoken || req.get('authtoken');		
 	},
 	getPublicKey:(app, userid) => {
-		
+
 	},
 	register: (app, db) => {
 		app.post('/api/auth', (req,res) => {
@@ -47,8 +47,25 @@ module.exports = {
 				}
 			});
 		});
+
+		app.post('/api/newuser', (req,res) => {
+			// todo make this actually work.
+			var username = req.body.username.trim(),
+				key = req.body.key,
+				scrypto = require('./crypto'),
+				keypair = scrypto.loadKey(key),
+				pubkey = scrypto.getPublicKey(keypair);
+
+			console.log("public key is ", pubkey);
+
+			require('./net').registerUser(username, pubkey).then(() => {
+				res.status(200).send();
+			}).catch((e) => { res.status(500).send(e.toString())});
+		});
+
 		/* creates a new user document - overwriting previous ones. this
 		   effectively negates all security */
+	   /* using password >> 
 		app.post('/api/newuser', (req,res) => {
 			// todo make this actually work.
 			var username = req.body.username.trim(),
@@ -59,6 +76,7 @@ module.exports = {
 				res.status(200).send();
 			});
 		});
+		*/
 		// auth check
 		app.get('/api/check', (req,res) => {
 			var token = req.cookies.authtoken;

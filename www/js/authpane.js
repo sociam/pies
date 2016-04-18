@@ -16,6 +16,10 @@ angular.module('smvm').directive('authpane', () => {
 		        	$timeout(() => { $scope.credentials.key = key; })
 		        });
 	        };
+	        $scope.register = () => {
+	        	var u = $scope.credentials.username, k = $scope.credentials.key;
+	        	network.register(u, k);
+	        };
 	    }
 	};
 });
