@@ -227,7 +227,7 @@ module.exports = {
 	},
 	getIdentity: (id) => {
 		if (!tracker) throw new Error("Tracker not initialised");
-		return tracker.collection('nodes').find({id:id});
+		return tracker.collection('nodes').findById(id);
 	},
 	getPublicKey: (id) => {
 		if (!tracker) throw new Error("Tracker not initialised");

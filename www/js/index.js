@@ -9,7 +9,7 @@ angular.module('smvm', [])
         };
         this.checkAuth = () => get('/api/check');
         this.register = (username, key) => post('/api/newuser', {username:username,key:key});
-        this.auth = (username, key) => post('/api/auth', {username:username,password:key});
+        this.auth = (username, key) => post('/api/auth', {username:username,key:key});
         this.generateKey = () => get('/api/generateKey');
     }).service('storage', function() {
         var this_ = this,

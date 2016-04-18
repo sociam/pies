@@ -12,7 +12,7 @@
 		</dl>
 		<div class="authstate glyphicon glyphicon-ok" ng-if="credentials.authed"></div>
 		<div>
-			<input type="submit" class="btn btn-default" ng-submit="auth()" ng-disabled="!credentials.username || !credentials.key" value="log in"></input>
+			<input type="submit" class="btn btn-default" ng-click="auth()" ng-disabled="!credentials.username || !credentials.key" value="log in"></input>
 			<div type="button" class="btn" ng-click="keygen()"> <i class="glyphicon glyphicon-qrcode"></i> generate new key!  </div>
 			<div type="button" class="btn" ng-click="register()" value="register!"><i class="glyphicon glyphicon-edit"></i> register!</div>
 		</div>

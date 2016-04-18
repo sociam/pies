@@ -12,13 +12,16 @@ angular.module('smvm').directive('authpane', () => {
 	        $scope.credentials = {};
 	        $scope.keygen = () => {
 	        	network.generateKey().then((key) => {
-	        		console.log('key!', key);
 		        	$timeout(() => { $scope.credentials.key = key; })
 		        });
 	        };
 	        $scope.register = () => {
 	        	var u = $scope.credentials.username, k = $scope.credentials.key;
 	        	network.register(u, k);
+	        };
+	        $scope.auth = () => {
+	        	var u = $scope.credentials.username, k = $scope.credentials.key;
+	        	network.auth(u, k).then(x => console.log(x));
 	        };
 	    }
 	};
