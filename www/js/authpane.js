@@ -6,8 +6,6 @@ angular.module('smvm').directive('authpane', () => {
 	    replace:true,
 	    bindings:{},
 	    controller:function($scope, $timeout, network) {
-	        console.log('authpane');
-
 	        $scope.baseurl = document.location.toString();
 	        $scope.credentials = {};
 	        $scope.keygen = () => {
