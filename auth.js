@@ -22,6 +22,9 @@ module.exports = {
 		// console.info('auth token ', req.path, req.get('authtoken'));
 		return req.cookies && req.cookies.authtoken || req.get('authtoken');		
 	},
+	getPublicKey:(app, userid) => {
+		
+	},
 	register: (app, db) => {
 		app.post('/api/auth', (req,res) => {
 			// automatically auth

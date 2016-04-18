@@ -7,6 +7,9 @@
 
 var express = require('express'),
 	app = express(),
+	http = require('http'),
+	server = http.createServer(app),
+	io = require('socket.io')(server),
 	_ = require('lodash'),
 	Promise = require('bluebird'),
 	mongo = require('mongodb-bluebird'),
@@ -14,11 +17,11 @@ var express = require('express'),
 	fs = require('fs'),	
 	config_file = process.argv.length > 2 ? process.argv[2] : './config.json',
 	config = JSON.parse(fs.readFileSync(config_file)),
-	http = require('http'),
 	cookieParser = require('cookie-parser'),
 	snet = require('./net'),
 	scrypto = require('./crypto'),
 	sauth = require('./auth'),
+	socketio = require('socket.io'),
 	host_key;
 
 console.info('initialising with config ', config_file);
@@ -38,7 +41,7 @@ host_key = scrypto.loadKey(config.privkey);
 
 snet.connect(host_key).then((db) => {
 	// snet kicks things off!
-	snet.register(app, db, host_key);
+	snet.register(app, io, db, host_key);
 	sauth.register(app, db, host_key); // register auth	
 });
 
@@ -46,8 +49,6 @@ snet.connect(host_key).then((db) => {
 app.use(bodyParser.json()); // for parsing application/json
 app.use(cookieParser());
 app.use('/', express.static('www'));
-
-var server = http.createServer(app);
 
 // http.createServer(app).listen(3000);
 server.listen(config.port, function() { });

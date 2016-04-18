@@ -30,6 +30,6 @@
     "angular-ui-router": "",
     "d3": "",
     "pouchdb": "",
-    "socket.io-client": "^1.4.5"
+    "socket.io-client": ""
   }
 }

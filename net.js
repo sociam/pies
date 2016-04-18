@@ -14,7 +14,7 @@ var _ = require('lodash'),
 	os = require('os'),
 	request = require('request-promise'),	
 	RECONNECT_TIMEOUT=12000,
-	db, tracker, peers;
+	db, tracker, peers, socket_listener;
 
 var getLocalCollections = () => db.collections().then((sC) => { return sC.map((x) => x.s.name);	}),
 	getPeerCollections = (p) => askPeer(p, '/api/collections?local=true').then((x) => (x && JSON.parse(x) || [])),
@@ -124,9 +124,10 @@ module.exports = {
 			return db;
 		}).catch((err) => { console.error("could not connect to tracker", err); });
 	},
-	register:(app, db, host_key) => {
+	register:(app, io, db, host_key) => {
 		// start registering api endpoints
 		console.info('registering net endpoints >>>> ');
+		socket_listener = require('./socketer').register(app, db, io);
 		app.get('/api/collections', (req,res) => {
 			var localOnly = url.parse(req.url, true).query.local;
 			if (localOnly) {
@@ -183,10 +184,8 @@ module.exports = {
 			var cname = req.params.collection,
 				id = req.params.id,
 				dtou = req.get('dtou');
-
 			console.info('got data terms of use header', dtou);
 			// console.info('POST /api/',cname,id, ' -> ', req.body, typeof req.body, 'rawbody ', req.rawbody);
-
 			findCollection(cname).then((chost) => {
 				if (!chost) {
 					console.error("Could not find collection ", cname, " returning 404");
@@ -218,6 +217,14 @@ module.exports = {
 			res.status(200).send(skey);
 		});
 		console.info('registered!');
+	},
+	getIdentity: (id) => {
+		if (!tracker) throw new Error("Tracker not initialised");
+		return tracker.find({id:id});
+	},
+	getPublicKey: (id) => {
+		if (!tracker) throw new Error("Tracker not initialised");
+		return tracker.findById(id).then((x) => x && x[0].pubkey);
 	}
 };
 	
