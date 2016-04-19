@@ -21,15 +21,16 @@
     "lodash": "",
     "jQuery": "",
     "less": "",
-    "bootstrap":"",
+    "bootstrap": "",
     "angular": "",
     "bluebird": "",
-    "pouchdb":"",
+    "pouchdb": "",
     "angular-animate": "",
     "angular-sanitize": "",
     "angular-ui-router": "",
     "d3": "",
-    "pouchdb": "",
-    "socket.io-client": ""
+    "socket.io-client": "",
+    "kjur-jsrsasign": "jsrsasign#^5.0.8",
+    "cryptico": "*"
   }
 }

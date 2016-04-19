@@ -45,6 +45,13 @@ snet.connect(host_key).then((db) => {
 	sauth.register(app, db, host_key); // register auth	
 });
 
+// cors
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // register middleware
 app.use(bodyParser.json()); // for parsing application/json
 app.use(cookieParser());
